@@ -7,3 +7,7 @@
 .font-inter{
     font-family: "Inter", sans-serif;
 }
+
+.selected {
+    background-color: red;
+}

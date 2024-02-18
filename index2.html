@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Button to Move to Another Section</title>
+<style>
+    /* Styles for demonstration */
+    section {
+        height: 500px; /* Adjust as needed */
+        border: 1px solid black;
+        margin: 20px;
+    }
+</style>
+</head>
+<body>
+
+<button onclick="scrollToSection('section2')">Go to Section 2</button>
+
+<section id="section1">
+    <h2>Section 1</h2>
+    <p>This is the first section.</p>
+</section>
+
+<section id="section2">
+    <h2>Section 2</h2>
+    <p>This is the second section.</p>
+</section>
+
+<script>
+    function scrollToSection(sectionId) {
+        var section = document.getElementById(sectionId);
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
