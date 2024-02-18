@@ -9,21 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- styles link -->
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
-
-    .font-raleway {
-      font-family: "Raleway", sans-serif;
-    }
-
-    .font-inter {
-      font-family: "Inter", sans-serif;
-    }
-
-    .selected {
-      background-color: red;
-    }
-  </style>
+  <link rel="stylesheet" href="Styles/styles.css">
 </head>
 
 <body>
@@ -394,7 +380,7 @@
                       <!-- head -->
                       <thead>
                         <tr class="font-inter font-medium text-[#030712]">
-                          <th>Seat <span class="bg-[#1DD100] text-white p-1 rounded-full">2</span></th>
+                          <th>Seat <span id="selectedSeatsCount" class="bg-[#1DD100] text-white p-1 rounded-full">0</span></th>
                           <th>Class</th>
                           <th>Price</th>
                         </tr>
@@ -405,16 +391,16 @@
                     </table>
                     <div class="flex justify-between pt-4 font-inter font-medium text-[#030712]">
                       <h1>Total price</h1>
-                      <h2>BDT: 1100</h2>
+                      <h2 id="totalPrice">BDT: 0</h2>
                     </div>
                     <!-- Ticket calculation filed -->
                     <div class="flex pt-3 relative">
-                      <input type="text" placeholder="Have any copupon?" class="input w-full border-none" />
-                      <button class="btn absolute left-40 bg-[#1DD100] text-white">Apply Now</button>
+                      <input type="text" id="couponInput" placeholder="Have any copupon?" class="input w-full border-none" />
+                      <button onclick="applyCoupon()" class="btn absolute left-40 bg-[#1DD100] text-white">Apply Now</button>
                     </div>
                     <div class="flex justify-between pt-4 font-inter font-medium text-[#030712]">
                       <h1>Grand Total</h1>
-                      <h2>BDT 1100</h2>
+                      <h2 id="grandTotal">BDT: 0</h2>
                     </div>
                   </div>
                 </div>
@@ -422,24 +408,24 @@
                 <section class="space-y-5 pt-5">
                   <div class="space-y-5">
                     <h1>Passenger Name*</h1>
-                    <input type="text" placeholder="Enter your name" class="input input-bordered w-full max-w-xs" />
+                    <input id="passengerName" type="text" placeholder="Enter your name" class="input input-bordered w-full max-w-xs" oninput="checkPassengerInfo()"/>
                   </div>
                   <div class="space-y-5">
                     <h1>Phone Number*</h1>
-                    <input type="phone" placeholder="Enter your phone number"
-                      class="input input-bordered w-full max-w-xs" />
+                    <input id="phoneNumber" type="phone" placeholder="Enter your phone number"
+                      class="input input-bordered w-full max-w-xs" oninput="checkPassengerInfo()"/>
                   </div>
                   <div class="space-y-5">
                     <h1>Email ID</h1>
                     <input type="email" placeholder="Enter your email id"
                       class="input input-bordered w-full max-w-xs" />
                   </div>
-                  <div>
-                    <button onclick="next()" class="btn btn-secondary w-full">Next</button>
+                  <div class=" flex gap-3">
+                    <button id="nextButton" onclick="next()" class="btn btn-secondary w-full" disabled>Next</button>
                   </div>
                 </section>
                 <!-- terms and condition -->
-                <section class="flex justify-around pt-5">
+                <section class="flex justify-around pt-5 gap-5">
                   <a class="link">Terms and Conditions</a>
                   <a class="link">Cancellation Policy</a>
                 </section>
@@ -484,118 +470,7 @@
       <p>Privacy policy</p>
     </div>
   </div>
-
-
-  <script>
-    function scrollToSection(sectionId) {
-      var section = document.getElementById(sectionId);
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-
-
-    function setBackgroundColor(elementId) {
-      const element = document.getElementById(elementId);
-      element.classList.add("bg-orange-400");
-    }
-
-    function removeBackgroundColor(elementId) {
-      const element = document.getElementById(elementId);
-      element.classList.remove("bg-orange-400");
-    }
-
-    function hideElementById(elementId) {
-      const element = document.getElementById(elementId);
-      element.classList.add("hidden");
-    }
-    function showElementById(elementId) {
-      const element = document.getElementById(elementId);
-      element.classList.remove("hidden");
-    }
-
-    function next() {
-      hideElementById('home-section')
-      showElementById('pop-up')
-    }
-
-    function closePopup() {
-      hideElementById('pop-up')
-      showElementById('home-section')
-    }
-
-
-
-// Global variable to store the total number of available seats
-let totalSeats = 40;
-// Array to store the IDs of selected seats
-let selectedSeats = [];
-
-// Function to handle seat selection
-function selectSeat(seatId) {
-  const seat = document.getElementById(seatId);
-
-  // Check if the seat is already selected
-  if (seat.classList.contains('selected')) {
-    // If already selected, remove it from the selected seats
-    seat.classList.remove('selected');
-    // Remove the seat ID from the selectedSeats array
-    const index = selectedSeats.indexOf(seatId);
-    if (index !== -1) {
-      selectedSeats.splice(index, 1);
-    }
-    // Increment the total number of available seats
-    totalSeats++;
-  } else {
-    // Check if the maximum limit of 4 seats is reached
-    if (selectedSeats.length >= 4) {
-      // If the limit is reached, show an alert and return
-      alert('You can select a maximum of 4 seats at a time.');
-      return;
-    }
-
-    // If not selected and limit is not reached, add it to the selectedSeats array
-    seat.classList.add('selected');
-    // Add the seat ID to the selectedSeats array
-    selectedSeats.push(seatId);
-    // Decrement the total number of available seats
-    totalSeats--;
-  }
-
-  // Update the display to show the updated total seats count
-  document.getElementById('totalSeats').innerText = totalSeats;
-  updateSelectedSeatsTable();
-}
-
-// Function to update the table with selected seats
-function updateSelectedSeatsTable() {
-  // Get the table body element where the selected seats will be displayed
-  const tableBody = document.getElementById('selectedSeatsTableBody');
-
-  // Clear the existing content of the table body
-  tableBody.innerHTML = '';
-
-  // Iterate over the selectedSeats array
-  for (const seatId of selectedSeats) {
-    // Create a new row element
-    const row = document.createElement('tr');
-
-    // Create table cells for seat number, class, and price
-    const seatCell = document.createElement('td');
-    seatCell.textContent = seatId;
-    row.appendChild(seatCell);
-
-    const classCell = document.createElement('td');
-    classCell.textContent = 'Economy'; // You can change this dynamically based on seat type
-    row.appendChild(classCell);
-
-    const priceCell = document.createElement('td');
-    priceCell.textContent = '500'; // You can change this dynamically based on seat price
-    row.appendChild(priceCell);
-
-    // Append the row to the table body
-    tableBody.appendChild(row);
-  }
-}
-  </script>
+  <script src="index.js"></script>
 </body>
 
 </html>
