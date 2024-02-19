@@ -61,6 +61,19 @@ checkPassengerInfo();
 updateSelectedSeatsCount()
 }
 
+// Select the coupon code input and apply button
+const couponCodeInput = document.getElementById("couponInput");
+const applyButton = document.getElementById("applyButton");
+
+// Add click event listener to the apply button
+applyButton.addEventListener("click", function() {
+    // Disable the apply button
+    applyButton.disabled = true;
+});
+
+
+
+
 function updateSelectedSeatsCount() {
 const selectedSeatsCount = selectedSeats.length;
 document.getElementById('selectedSeatsCount').innerText = selectedSeatsCount;
